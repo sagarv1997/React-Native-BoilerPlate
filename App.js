@@ -3,18 +3,26 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 
-import themeReducer from './src/store/reducers/themeReducer';
-import AppContext from './src/context/AppContext';
+import counterReducer from './src/store/reducers/counterReducer';
+import HomeScreen from './HomeScreen';
+import {ThemeProvider} from './src/context/ThemeContext';
+import {LocalizationProvider} from './src/context/LocalizationContext';
 
 const store = createStore(
-  combineReducers({themeReducer}),
+  combineReducers({
+    ctr: counterReducer,
+  }),
   applyMiddleware(thunk),
 );
 
 const App = () => {
   return (
     <Provider store={store}>
-      <AppContext />
+      <LocalizationProvider>
+        <ThemeProvider>
+          <HomeScreen />
+        </ThemeProvider>
+      </LocalizationProvider>
     </Provider>
   );
 };
